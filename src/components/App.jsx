@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ContactForm } from './Form/Form';
 import { ContactsList } from './ContactList/ContactsList';
 import { Filter } from './Filter/Filter';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -11,18 +12,21 @@ const initialContacts = [
 ];
 
 export function App() {
+  const contactsData = useSelector(state => state.contacts.items);
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+
   const [contacts, setContacts] = useState(() => {
     const storedContacts = localStorage.getItem('contacts');
     return storedContacts ? JSON.parse(storedContacts) : initialContacts;
   });
-  const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+    localStorage.setItem('contacts', JSON.stringify(contactsData));
+  }, [contactsData]);
 
   const handleAddContact = newContact => {
-    const isExist = contacts.find(
+    const isExist = contactsData.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
     if (isExist) {
@@ -34,7 +38,7 @@ export function App() {
   };
 
   const handleFilter = e => {
-    setFilter(e.target.value);
+    dispatch({ type: 'contacts/setFilter', payload: e.target.value });
   };
 
   const handleDeleteContact = id => {
@@ -43,13 +47,13 @@ export function App() {
     );
   };
 
-  const itemContacts = contacts.filter(contact =>
+  const itemContacts = contactsData.filter(contact =>
     contact.name.toLowerCase().includes(filter)
   );
 
   const clearLocalStorage = () => {
     localStorage.clear();
-    setContacts(initialContacts); // Очищаю локалсторидж, щоб на сторінці рендерилися контакти з initialContacts
+    setContacts(initialContacts);
   };
 
   return (
