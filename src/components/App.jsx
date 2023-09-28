@@ -14,15 +14,17 @@ const initialContacts = [
 ];
 
 export function App() {
-  const contactsData = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(state => state.contacts.filter); 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const storedContacts = JSON.parse(localStorage.getItem('contacts')) ?? [];
-    dispatch(loadContacts(storedContacts));
+    dispatch(
+      loadContacts(storedContacts.length ? storedContacts : initialContacts)
+    );
   }, [dispatch]);
 
+  
   return (
     <div style={{ width: 500, marginLeft: 400, marginRight: 400 }}>
       <h2>Phonebook</h2>
@@ -31,9 +33,7 @@ export function App() {
       <Filter />
       <ContactsList filter={filter} />
 
-      {/* <button type="button" onClick={clearLocalStorage}>
-        Скидання
-      </button> */}
+     
     </div>
   );
 }

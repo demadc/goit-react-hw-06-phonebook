@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import { nanoid } from 'nanoid/non-secure';
 import { Label, Button } from './Form.styled';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/contactSlice';
 
 const idName = nanoid();
@@ -11,25 +11,14 @@ const idNum = nanoid();
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
+  const currentContacts = useSelector(state => state.contacts.items);
 
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const handleAddContact = (values, { resetForm }) => {
+    dispatch(addContact(values)); 
 
-  const handleNameChange = e => {
-    setName(e.target.value);
-  };
+    localStorage.setItem('contacts', JSON.stringify(currentContacts));
 
-  const handleNumberChange = e => {
-    setNumber(e.target.value);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    dispatch(addContact({ name, number }));
-
-    setName('');
-    setNumber('');
+    resetForm(); 
   };
 
   return (
@@ -38,7 +27,7 @@ export const ContactForm = () => {
         name: '',
         number: '',
       }}
-      onSubmit={() => dispatch(addContact({ name, number }))}
+      onSubmit={handleAddContact}
     >
       <Form>
         <Label htmlFor={idName}>
@@ -50,8 +39,6 @@ export const ContactForm = () => {
             pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            onChange={handleNameChange}
-            value={name}
           />
         </Label>
         <Label>
@@ -64,8 +51,6 @@ export const ContactForm = () => {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             placeholder="0XX-123-45-67"
-            onChange={handleNumberChange}
-            value={number}
           />
         </Label>
 
@@ -74,3 +59,4 @@ export const ContactForm = () => {
     </Formik>
   );
 };
+

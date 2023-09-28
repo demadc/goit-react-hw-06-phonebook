@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, ListItem, ItemText, Btn } from './ContactsList.styled';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from '../../redux/contacts/contactSlice';
 
 export const ContactsList = () => {
@@ -9,8 +9,15 @@ export const ContactsList = () => {
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
 
+  
+  if (!Array.isArray(contactsData)) {
+    console.error('contactsData is not an array');
+    return null;
+  }
+
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
+    
   };
 
   const filteredContacts = contactsData.filter(contact =>
