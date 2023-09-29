@@ -13,12 +13,23 @@ export const ContactForm = () => {
   const dispatch = useDispatch();
   const currentContacts = useSelector(state => state.contacts.items);
 
-  const handleAddContact = (values, { resetForm }) => {
-    dispatch(addContact(values)); 
+  const handleAddContact = (value, { resetForm }) => {
+    
+    const isDuplicateContact = currentContacts.some(
+      contact => contact.name.toLowerCase() === value.name.toLowerCase()
+    );
 
-    localStorage.setItem('contacts', JSON.stringify(currentContacts));
+    if (isDuplicateContact) {
+      alert(`${value.name} is already in contacts.`);
+      
+    } else {
+      dispatch(addContact(value)); 
 
-    resetForm(); 
+      const updatedContacts = [...currentContacts, value];
+      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+
+      resetForm(); 
+    }
   };
 
   return (

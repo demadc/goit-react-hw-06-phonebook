@@ -9,15 +9,12 @@ export const ContactsList = () => {
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
 
-  
-  if (!Array.isArray(contactsData)) {
-    console.error('contactsData is not an array');
-    return null;
-  }
-
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
-    
+
+    const updatedContacts = contactsData.filter(contact => contact.id !== id);
+
+    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
   };
 
   const filteredContacts = contactsData.filter(contact =>
@@ -31,7 +28,7 @@ export const ContactsList = () => {
           <ItemText>
             {name}: {number}
           </ItemText>
-          <Btn type="button" onClick={() => dispatch(deleteContact(id))}>
+          <Btn type="button" onClick={() => handleDeleteContact(id)}>
             Delete
           </Btn>
         </ListItem>

@@ -3,7 +3,7 @@ import { ContactForm } from './Form/Form';
 import { ContactsList } from './ContactList/ContactsList';
 import { Filter } from './Filter/Filter';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadContacts } from 'redux/contacts/contactSlice';
 
 const initialContacts = [
@@ -14,7 +14,6 @@ const initialContacts = [
 ];
 
 export function App() {
-  const filter = useSelector(state => state.contacts.filter); 
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export function App() {
       <ContactForm />
       <h2>Contacts</h2>
       <Filter />
-      <ContactsList filter={filter} />
+      <ContactsList  />
 
      
     </div>
