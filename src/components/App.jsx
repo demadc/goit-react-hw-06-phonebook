@@ -4,7 +4,7 @@ import { ContactsList } from './ContactList/ContactsList';
 import { Filter } from './Filter/Filter';
 
 import { useDispatch } from 'react-redux';
-import { loadContacts } from 'redux/contacts/contactSlice';
+import { loadContacts } from 'redux/contacts/contactSlice'; 
 
 const initialContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
