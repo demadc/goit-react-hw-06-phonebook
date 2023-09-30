@@ -13,9 +13,9 @@ import { createSlice } from '@reduxjs/toolkit';
         state.items = state.items.filter(contact => contact.id !== action.payload);
       },
     
-      loadContacts(state, action) {
-        state.items = action.payload;
-      },
+    //   loadContacts(state, action) {
+    //     state.items = action.payload;
+    //   },
     },
   });
   

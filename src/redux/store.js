@@ -19,16 +19,15 @@ import {
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist:['items', 'filter']
+  whitelist:['items']
 }
 
 const persistedContactReducer = persistReducer(persistConfig, contactReducer)
-const persistedFilterReducer = persistReducer(persistConfig, filterReducer)
 
 export const store = configureStore({
   reducer: {
     contacts: persistedContactReducer,
-    filter: persistedFilterReducer,
+    filter: filterReducer,
   },
   middleware(getDefaultMiddleware){
     return getDefaultMiddleware({

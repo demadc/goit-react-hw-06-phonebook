@@ -3,29 +3,26 @@ import { List, ListItem, ItemText, Btn } from './ContactsList.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contacts/contactSlice';
-// import { contactsData } from 'redux/selector';
+import { selectFilteredContacts } from 'redux/selector';
+
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+  const contacts = useSelector(selectFilteredContacts);
+  // const filter = useSelector(selectFilter);
 
 
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
 
-    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    // const updatedContacts = contacts.filter(contact => contact.id !== id);
 
-    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+    // localStorage.setItem('contacts', JSON.stringify(updatedContacts));
   };
-
-  const filteredContacts = contacts.items.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
 
   return (
     <List>
-      {filteredContacts.map(({ id, name, number }) => (
+      {contacts.map(({ id, name, number }) => (
         <ListItem key={id}>
           <ItemText>
             {name}: {number}

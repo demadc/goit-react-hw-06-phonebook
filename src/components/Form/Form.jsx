@@ -5,13 +5,15 @@ import { Label, Button } from './Form.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/contactSlice';
+import { contactsData } from 'redux/selector';
+
 
 const idName = nanoid();
 const idNum = nanoid();
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const currentContacts = useSelector(state => state.contacts.items);
+  const currentContacts = useSelector(contactsData);
 
   const handleAddContact = (value, { resetForm }) => {
     
@@ -23,10 +25,7 @@ export const ContactForm = () => {
       alert(`${value.name} is already in contacts.`);
       
     } else {
-      dispatch(addContact(value)); 
-
-      const updatedContacts = [...currentContacts, value];
-      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+      dispatch(addContact({...value, id: nanoid()})); 
 
       resetForm(); 
     }
