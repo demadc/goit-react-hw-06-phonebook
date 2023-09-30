@@ -9,15 +9,11 @@ import { selectFilteredContacts } from 'redux/selector';
 export const ContactsList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectFilteredContacts);
-  // const filter = useSelector(selectFilter);
 
 
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
 
-    // const updatedContacts = contacts.filter(contact => contact.id !== id);
-
-    // localStorage.setItem('contacts', JSON.stringify(updatedContacts));
   };
 
   return (

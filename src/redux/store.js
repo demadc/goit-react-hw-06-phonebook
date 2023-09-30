@@ -12,9 +12,7 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-
-    
+} from 'redux-persist';  
 
 const persistConfig = {
   key: 'root',
